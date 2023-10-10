@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>UPDATE TASK</title>
+</head>
+
+<body>
+
+<h2> Update Task!</h2>
+<form action="#" th:action="@{/updateTask}" th:object="${task}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="text" th:field="*{description}" th:placeholder="task.description"/>
+    <select th:field="*{status}">
+        <option value="IN_PROGRESS">IN_PROGRESS</option>
+        <option value="DONE">DONE</option>
+        <option value="PAUSED">PAUSED</option>
+    </select>
+    <input type="submit" value="Edit">
+</form>
+
+
+
+</body>
+
+
+</html>

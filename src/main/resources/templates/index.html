@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>TASKS</title>
+</head>
+
+<body>
+<table border="1">
+    <thead>
+    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=description&sortDir='+ ${reverseSortDir}}">
+        Description </a></th>
+    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=status&sortDir='+ ${reverseSortDir}}"> Status </a></th>
+    </thead>
+
+    <tbody>
+    <tr th:each="task:${listTask}">
+        <td th:text="${task.description}"></td>
+        <td th:text="${task.status}"></td>
+        <td>
+            <form action="#" th:action="@{/showFromForUpdate/{id}(id=${task.id})}">
+                <input type="submit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{/deleteTask/{id}(id=${task.id})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">Add new task:</td>
+    </tr>
+    <tr>
+        <form th:action="@{/}" method="post">
+            <td>
+                <input type="text" th:name="desc"/>
+            </td>
+            <td>
+                <select th:name="status">
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="DONE">DONE</option>
+                    <option value="PAUSED">PAUSED</option>
+                </select>
+            </td>
+            <td>
+                <input type="submit" value="Save"/>
+            </td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<div>
+    Total Rows : [[${totalElements}]]
+</div>
+<div>
+<span th:each="i : ${#numbers.sequence(1, totalPages)}">
+    <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} +  '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+    <a th:unless="${currentPage != i}">[[${i}]]</a>
+</span>
+</div>
+<div>
+    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} +  '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Next </a>
+    <a th:unless="${currentPage < totalPages}"> Next </a>
+</div>
+<div>
+    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} +  '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Last </a>
+    <a th:unless="${currentPage < totalPages}"> Last </a>
+</div>
+</body>
+</html>
